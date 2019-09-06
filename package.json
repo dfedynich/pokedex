@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Pokedex of San Diego",
   "scripts": {
-    "start": "webpack-dev-server --config webpack.config --env.env=dev",
+    "start": "webpack-dev-server --config webpack.config --env.env=dev --open",
     "build": "webpack --config webpack.config --env.env=prod",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
