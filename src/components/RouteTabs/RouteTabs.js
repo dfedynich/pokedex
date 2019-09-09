@@ -14,7 +14,6 @@ const TabsNavigationList = styled.ul`
     
     margin: 0;
     padding: 0;
-    overflow: hidden;
     
     border: 1px solid;
     border-radius: 3px;
@@ -22,11 +21,12 @@ const TabsNavigationList = styled.ul`
     list-style: none;
 `;
 
-const NavLinkStyled = styled(NavLink)`
-    padding: 0.25em 1em;
+const StyledNavLink = styled(NavLink)`
+    display: block;
+    
+    padding: 0.5em 1em;
     text-decoration: none;
     transition: 0.2s all ease-out;
-    line-height: 1.4;
     color: #4169E1;
     
     &.isActive {
@@ -53,13 +53,13 @@ export default class RouteTabs extends PureComponent {
                 {this.props.routes.map((route, index) => {
                     return (
                         <li key={index}>
-                            <NavLinkStyled
+                            <StyledNavLink
                                 to={route.path}
                                 exact
                                 activeClassName="isActive"
                             >
                                 {route.title}
-                            </NavLinkStyled>
+                            </StyledNavLink>
                         </li>
                     );
                 })}
