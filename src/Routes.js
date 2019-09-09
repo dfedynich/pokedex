@@ -11,11 +11,13 @@ const routes = [
         component: Home,
         routes: [
             {
+                title: 'All',
                 path: "/pokemons",
                 exact: true,
                 component: PokemonsList
             },
             {
+                title: 'Bag',
                 path: "/pokemons/bag",
                 component: PokemonsBag
             }

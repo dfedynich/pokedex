@@ -8,7 +8,7 @@ const StyledAppLayout = styled.section`
      
     @media (min-width: 700px) {
         max-width: 80vw;
-        margin-top: 4em;    
+        margin-top: 3em;    
     }
 `;
 
