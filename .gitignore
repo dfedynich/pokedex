@@ -1,5 +1,32 @@
+### Node ###
+
 # Dependency directories
 node_modules/
 
 # Build output
 dist/
+
+
+
+### WebStorm Patch ###
+
+# User-specific stuff
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+# Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
+*.iml
+modules.xml
+.idea/misc.xml
+*.ipr
+
+
+
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
