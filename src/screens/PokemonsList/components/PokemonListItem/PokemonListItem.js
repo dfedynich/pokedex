@@ -1,25 +1,69 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const StyledPokemonListItem = styled(({ imageURL, ...rest }) => <Link {...rest} />)`
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
     height: 100%;
     width: 100%;
-    background-image: url(${props => props.imageURL});
-    background-repeat: no-repeat;
-    background-position: center;
     
-    background-color: #ededed;
+    background: #ededed;
+    background: radial-gradient(circle, rgba(255,255,255,1) 25%, rgba(237,237,237,1) 80%);
     border-radius: 3px;
     
     &:hover {
-    background-color: #d6d6d6;
-}
+      background: #d6d6d6;
+      background: radial-gradient(circle, rgba(255,255,255,1) 25%, rgba(214,214,214,1) 80%);
+    }
 `;
 
-export default function(props) {
+const PokemonImage = styled.p`
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    
+    margin: 0;
+    padding-bottom: 8px;
+    text-align: center;
+    
+    color: #4169E1;
+`;
+
+const PokemonName = styled.p`
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    
+    margin: 0;
+    padding: 8px;
+    
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    color: #4169E1;
+`;
+
+export default function PokemonListItem(props) {
+    const pokemonName = props.name.charAt(0).toUpperCase() + props.name.slice(1);
+
     return (
-        <StyledPokemonListItem imageURL={props.imageURL} to={`/pokemons/${props.pokemonId}`}>{props.name}</StyledPokemonListItem>
+        <StyledPokemonListItem
+            imageURL={props.imageURL}
+            to={`/pokemons/${props.pokemonId}`}
+        >
+            <img alt={props.name} src={props.imageURL} />
+            <PokemonName>{pokemonName}</PokemonName>
+        </StyledPokemonListItem>
     );
+}
+
+PokemonListItem.propTypes = {
+    imageURL: PropTypes.string,
+    pokemonId: PropTypes.number.isRequired
 }
