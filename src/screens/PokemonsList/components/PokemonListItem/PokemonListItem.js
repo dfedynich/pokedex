@@ -20,6 +20,6 @@ const StyledPokemonListItem = styled(({ imageURL, ...rest }) => <Link {...rest} 
 
 export default function(props) {
     return (
-        <StyledPokemonListItem imageURL={props.imageURL} to={`/pokemons/${props.pokemonId}`}></StyledPokemonListItem>
+        <StyledPokemonListItem imageURL={props.imageURL} to={`/pokemons/${props.pokemonId}`}>{props.name}</StyledPokemonListItem>
     );
 }
