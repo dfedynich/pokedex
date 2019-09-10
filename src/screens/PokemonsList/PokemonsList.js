@@ -5,9 +5,12 @@ import Fetcher from './../../components/Fetcher';
 import ApiRequest from './../../services/api/ApiRequest';
 
 export default class PokemonsList extends PureComponent {
+    getPokemonId(url) {
+        const splitArray = url.split('/');
+        return splitArray[splitArray.length - 1] || splitArray[splitArray.length - 2];
+    }
     render() {
         const apiRequest = ApiRequest.createPokemonApiRequest();
-        const params = this.props.limit ? {limit: this.props.limit} : {};
         return (
             <Fetcher request={() => apiRequest.endpoints.pokemons.getAll({params: {limit: 151}})}>
                 {({data, isLoading, error}) => {
@@ -25,14 +28,17 @@ export default class PokemonsList extends PureComponent {
 
                     return (
                         <GalleryLayout>
-                            {data.results.map((pokemon, index) => (
-                                <PokemonListItem
-                                    key={index}
-                                    name={pokemon.name}
-                                    pokemonId={12}
-                                    imageURL="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png"
-                                />
-                            ))}
+                            {data.results.map((pokemon, index) => {
+                                const pokemonId = this.getPokemonId(pokemon.url);
+                                return (
+                                    <PokemonListItem
+                                        key={index}
+                                        name={pokemon.name}
+                                        pokemonId={pokemonId}
+                                        imageURL="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png"
+                                    />
+                                );
+                            })}
                         </GalleryLayout>
                     );
                 }}
