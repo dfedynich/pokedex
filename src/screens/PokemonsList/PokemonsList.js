@@ -3,16 +3,22 @@ import GalleryLayout from './../../layouts/GalleryLayout';
 import PokemonListItem from './components/PokemonListItem/PokemonListItem';
 import Fetcher from './../../components/Fetcher';
 import ApiRequest from './../../services/api/ApiRequest';
+import localStorageCacheDecorator from './../../services/decorators/localStorageCacheDecorator';
 
 export default class PokemonsList extends PureComponent {
     getPokemonId(url) {
         const splitArray = url.split('/');
-        return splitArray[splitArray.length - 1] || splitArray[splitArray.length - 2];
+        const pokemonId = splitArray[splitArray.length - 1] || splitArray[splitArray.length - 2];
+        const pokemonIdNumber = Number(pokemonId);
+
+        return pokemonIdNumber;
     }
     render() {
         const apiRequest = ApiRequest.createPokemonApiRequest();
+        const getAllRequest = localStorageCacheDecorator('pokemons', apiRequest.endpoints.pokemons.getAll);
+
         return (
-            <Fetcher request={() => apiRequest.endpoints.pokemons.getAll({params: {limit: 151}})}>
+            <Fetcher request={() => getAllRequest({params: {limit: 151}})}>
                 {({data, isLoading, error}) => {
                     if (!data) {
                         return <p>No data yet ...</p>;
