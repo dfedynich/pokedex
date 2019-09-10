@@ -1,15 +1,15 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { NavLink, Switch, Redirect } from "react-router-dom";
-import { RouteWithSubRoutes } from "../../Routes";
+import {NavLink, Switch, Redirect} from "react-router-dom";
+import {RouteWithSubRoutes} from "../../Routes";
 
-const TabsNavigation = styled.div`
+const TabsNav = styled.div`
     display: flex;
     justify-content: center;  
 `;
 
-const TabsNavigationList = styled.ul`
+const TabsNavList = styled.ul`
     display: flex;
     
     margin: 0;
@@ -19,6 +19,12 @@ const TabsNavigationList = styled.ul`
     border-radius: 3px;
     
     list-style: none;
+`;
+
+const TabsNavListItem = styled.li`
+      & + & {
+      border-left: 1px solid;
+    }
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -49,10 +55,10 @@ export default class RouteTabs extends PureComponent {
 
     renderTabsNavigationList() {
         return (
-            <TabsNavigationList>
+            <TabsNavList>
                 {this.props.routes.map((route, index) => {
                     return (
-                        <li key={index}>
+                        <TabsNavListItem key={index}>
                             <StyledNavLink
                                 to={route.path}
                                 exact
@@ -60,10 +66,10 @@ export default class RouteTabs extends PureComponent {
                             >
                                 {route.title}
                             </StyledNavLink>
-                        </li>
+                        </TabsNavListItem>
                     );
                 })}
-            </TabsNavigationList>
+            </TabsNavList>
         );
     }
 
@@ -76,7 +82,7 @@ export default class RouteTabs extends PureComponent {
                     <RouteWithSubRoutes key={i} {...route} />
                 ))}
 
-                <Redirect from="/" to={defaultActiveRoutePath} exact />
+                <Redirect from="/" to={defaultActiveRoutePath} exact/>
             </Switch>
         )
     }
@@ -84,9 +90,9 @@ export default class RouteTabs extends PureComponent {
     render() {
         return (
             <section>
-                <TabsNavigation>
+                <TabsNav>
                     {this.renderTabsNavigationList()}
-                </TabsNavigation>
+                </TabsNav>
 
                 {this.renderTabsContent()}
             </section>
