@@ -1,3 +1,3 @@
 export default function(props) {
-    return "Pokemon Profile";
+    return `Pokemon Profile - ${props.match.params.pokemonId}`;
 }

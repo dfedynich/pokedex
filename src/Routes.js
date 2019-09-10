@@ -18,7 +18,8 @@ const routes = [
             },
             {
                 title: 'Bag',
-                path: "/pokemons/bag",
+                path: "/bag",
+                exact: true,
                 component: PokemonsBag
             }
         ]
