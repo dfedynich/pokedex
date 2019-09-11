@@ -12,7 +12,7 @@ const TabsNav = styled.div`
 const TabsNavList = styled.ul`
     display: flex;
     
-    margin: 0;
+    margin: 0 0 10px 0;
     padding: 0;
     
     border: 1px solid;

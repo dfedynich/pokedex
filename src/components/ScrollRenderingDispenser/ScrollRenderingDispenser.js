@@ -53,7 +53,6 @@ export default class ScrollRenderingDispenser extends Component {
             return false;
         }
         const pixelsFromWindowBottomToBottom = document.body.offsetHeight - window.scrollY - window.innerHeight;
-        console.log(pixelsFromWindowBottomToBottom);
         return pixelsFromWindowBottomToBottom < 500;
     }
 

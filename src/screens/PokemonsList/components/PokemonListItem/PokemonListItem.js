@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Fetcher from './../../../../components/Fetcher';
 import ApiRequest from './../../../../services/api/ApiRequest';
-import localStorageCacheDecorator from './../../../../services/decorators/localStorageCacheDecorator';
 
 const StyledPokemonListItem = styled(Link)`
     display: flex;
@@ -54,11 +53,7 @@ const PokemonName = styled.p`
 
 export default function PokemonListItem(props) {
     const pokemonName = props.name.charAt(0).toUpperCase() + props.name.slice(1);
-    const apiRequest = localStorageCacheDecorator({
-        key: 'pokemonProfiles',
-        id: props.id,
-        func: ApiRequest.createGetApiRequest({url: props.url})
-    });
+    const apiRequest = ApiRequest.createGetApiRequest({url: props.url});
 
     return (
         <StyledPokemonListItem

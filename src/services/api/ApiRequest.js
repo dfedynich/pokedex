@@ -1,4 +1,4 @@
-import {API_POKEMON_HOST_URL, API_POKEMON_ENDPOINTS_MAP, API_LOCATION_HOST_URL, LOCATION_API_KEY} from "./API";
+import {API_POKEMON_HOST_URL, API_POKEMON_ENDPOINTS_MAP, API_POKEMON_LOCATION_HOST_URL, LOCATION_API_KEY, API_POKEMON_LOCATION_ENDPOINTS_MAP} from "./API";
 
 export default class ApiRequest {
     constructor({ hostUrl }){
@@ -49,6 +49,24 @@ export default class ApiRequest {
 
         Object.entries(API_POKEMON_ENDPOINTS_MAP).forEach(endpoint => {
             apiRequest.addEndpoints({name: endpoint[0], path: endpoint[1]});
+        });
+
+        return apiRequest;
+    }
+
+    static createPokemonLocationApiRequest() {
+        const apiRequest = new ApiRequest({hostUrl: API_POKEMON_LOCATION_HOST_URL});
+
+        Object.entries(API_POKEMON_LOCATION_ENDPOINTS_MAP).forEach(endpoint => {
+            apiRequest.addEndpoints({
+                name: endpoint[0],
+                path: endpoint[1],
+                options: {
+                    headers: {
+                        'x-api-key': LOCATION_API_KEY
+                    },
+                }
+            });
         });
 
         return apiRequest;
