@@ -11,4 +11,4 @@
 ## Simple build for production
 
     $ npm run build
-    $ npx http-server dist
+    $ npx http-server dist -p 8080 --push-state
