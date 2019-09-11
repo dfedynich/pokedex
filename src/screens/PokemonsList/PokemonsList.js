@@ -5,6 +5,11 @@ import Fetcher from './../../components/Fetcher';
 import ApiRequest from './../../services/api/ApiRequest';
 import localStorageCacheDecorator from './../../services/decorators/localStorageCacheDecorator';
 import ScrollRenderingDispenser from './../../components/ScrollRenderingDispenser';
+import styled from 'styled-components';
+
+const StatusMessage = styled.p`
+  text-align: center;
+`;
 
 export default class PokemonsList extends PureComponent {
     getPokemonId(url) {
@@ -25,19 +30,27 @@ export default class PokemonsList extends PureComponent {
             <Fetcher request={() => getAllRequest({params: {limit: 151}})}>
                 {({data, isLoading, error}) => {
                     if (!data) {
-                        return <p>No data yet ...</p>;
+                        return <StatusMessage>No data yet ...</StatusMessage>;
                     }
 
                     if (error) {
-                        return <p>{error.message}</p>;
+                        return <StatusMessage>{error.message}</StatusMessage>;
                     }
 
                     if (isLoading) {
-                        return <p>Loading ...</p>;
+                        return <StatusMessage>Loading ...</StatusMessage>;
+                    }
+
+                    const items = this.props.filterItems
+                        ? this.props.filterItems(data.results)
+                        : data.results;
+
+                    if (items.length === 0){
+                        return <StatusMessage>No pokemons found</StatusMessage>
                     }
 
                     return (
-                        <ScrollRenderingDispenser items={data.results}>
+                        <ScrollRenderingDispenser items={items}>
                             {({items}) => {
                                 return (
                                     <GalleryLayout>

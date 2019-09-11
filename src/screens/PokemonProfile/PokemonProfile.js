@@ -17,19 +17,42 @@ export default class PokemonProfile extends PureComponent {
     constructor(props) {
         super(props);
 
+        this.localStorageBagKey = 'pokemonBag';
+        this.pokemonId = +props.match.params.pokemonId;
         this.apiRequest = ApiRequest.createPokemonApiRequest();
         this.getOneRequest = localStorageCacheDecorator({
             key: 'pokemonProfiles',
             id: props.match.params.pokemonId,
             func: this.apiRequest.endpoints.pokemons.getOne
         });
+
+        this.state = {
+            isInBag: this.isInBag()
+        };
+
+        this.handleCheckboxBagChange = this.handleCheckboxBagChange.bind(this);
+    }
+
+    handleCheckboxBagChange(isChecked) {
+        this.setState({isInBag: isChecked}, () => {
+            const pokemonBag = JSON.parse(localStorage.getItem(this.localStorageBagKey) || '[]');
+            const newPokemonBag = isChecked
+                ? [...pokemonBag, this.pokemonId]
+                : pokemonBag.filter(x => x !== this.pokemonId);
+
+            localStorage.setItem(this.localStorageBagKey, JSON.stringify(newPokemonBag));
+        })
+    }
+
+    isInBag() {
+        const bag = JSON.parse(localStorage.getItem(this.localStorageBagKey) || '[]');
+        return bag.includes(this.pokemonId);
     }
 
     render() {
-        const pokemonId = this.props.match.params.pokemonId;
         return (
             <StyledPokemonProfile>
-                <Fetcher request={() => this.getOneRequest({id: pokemonId})}>
+                <Fetcher request={() => this.getOneRequest({id: this.pokemonId})}>
                     {({data, isLoading, error}) => {
                         if (error) {
                             return 'N/A';
@@ -46,13 +69,15 @@ export default class PokemonProfile extends PureComponent {
                         return <ProfileLayout
                             summary={<PokemonProfileSummary
                                 name={data.name}
+                                isInBag={this.state.isInBag}
+                                onCheckboxBagChange={this.handleCheckboxBagChange}
                                 imageUrl={data.sprites.front_default}
                                 height={data.height}
                                 width={data.width}
                                 types={data.types.map(type => type.type.name)}
                                 abilities={data.abilities.map(ablty => ablty.ability.name)}
                             />}
-                            location={<PokemonProfileLocation pokemonId={pokemonId}/>}
+                            location={<PokemonProfileLocation pokemonId={this.pokemonId}/>}
                             description={POKEMON_DESCRIPTION}
                         />
                     }}

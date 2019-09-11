@@ -11,7 +11,7 @@ export default class ScrollRenderingDispenser extends Component {
 
     static defaultProps = {
         items: [],
-        pageSize: 20
+        pageSize: 25
     };
 
     constructor(props) {

@@ -23,7 +23,15 @@ const Name = styled.h2`
 `;
 
 const Label = styled.label`
+  display: inline-flex;
+  align-items: baseline;
   font-weight: 600;
+`;
+
+const Checkbox = styled.input.attrs(() => ({
+    type: "checkbox"
+}))`
+  margin-left: 10px;
 `;
 
 const SummaryList = styled.ul`
@@ -37,45 +45,66 @@ const SummaryList = styled.ul`
   }
 `;
 
-export default function ProfileLayout(props) {
-
-    return (
-        <StyledPokemonProfileLocation>
-            <Name>{uppercaseFirstLetter(props.name)}</Name>
-            <Avatar alt={props.name} src={props.imageUrl} />
-            <div>
-                <Label>Height: </Label>
-                {props.height}
-            </div>
-            <div>
-                <Label>Width: </Label>
-                {props.height}
-            </div>
-            <div>
-                <Label>Types: </Label>
-                <SummaryList>
-                    {props.types.map((type, index) => (
-                        <li key={index}>
-                            {uppercaseFirstLetter(type)}
-                        </li>
-                    ))}
-                </SummaryList>
-            </div>
-            <div>
-                <Label>Abilities: </Label>
-                <SummaryList>
-                    {props.abilities.map((type, index) => (
-                        <li key={index}>
-                            {uppercaseFirstLetter(type)}
-                        </li>
-                    ))}
-                </SummaryList>
-            </div>
-
-        </StyledPokemonProfileLocation>
-    );
-}
-
 const uppercaseFirstLetter = (text) => (
     text.charAt(0).toUpperCase() + text.slice(1)
 );
+
+export default class PokemonProfileSummary extends PureComponent {
+
+    constructor(props) {
+        super(props);
+
+        this.handleCheckboxBagChange = this.handleCheckboxBagChange.bind(this);
+    }
+
+    handleCheckboxBagChange(event) {
+        this.props.onCheckboxBagChange(!this.props.isInBag);
+    }
+
+    render() {
+        return (
+            <StyledPokemonProfileLocation>
+                <Name>{uppercaseFirstLetter(this.props.name)}</Name>
+                <Avatar alt={this.props.name} src={this.props.imageUrl}/>
+                <div>
+                    <Label>Height: </Label>
+                    {this.props.height}
+                </div>
+                <div>
+                    <Label>Width: </Label>
+                    {this.props.height}
+                </div>
+                <Label>
+                    <span>In Bag</span>
+                    <Checkbox
+                        checked={this.props.isInBag}
+                        onChange={this.handleCheckboxBagChange}
+                    />
+                </Label>
+                <div>
+                    <Label>Types: </Label>
+                    <SummaryList>
+                        {this.props.types.map((type, index) => (
+                            <li key={index}>
+                                {uppercaseFirstLetter(type)}
+                            </li>
+                        ))}
+                    </SummaryList>
+                </div>
+                <div>
+                    <Label>Abilities: </Label>
+                    <SummaryList>
+                        {this.props.abilities.map((type, index) => (
+                            <li key={index}>
+                                {uppercaseFirstLetter(type)}
+                            </li>
+                        ))}
+                    </SummaryList>
+                </div>
+
+            </StyledPokemonProfileLocation>
+        );
+    }
+}
+
+
