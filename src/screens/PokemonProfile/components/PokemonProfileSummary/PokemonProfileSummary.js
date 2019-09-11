@@ -50,6 +50,16 @@ const uppercaseFirstLetter = (text) => (
 );
 
 export default class PokemonProfileSummary extends PureComponent {
+    static propTypes = {
+        name: PropTypes.string,
+        height: PropTypes.number,
+        width: PropTypes.number,
+        types: PropTypes.arrayOf(PropTypes.string),
+        abilities: PropTypes.arrayOf(PropTypes.string),
+        isInBag: PropTypes.bool,
+        imageUrl: PropTypes.string,
+        onCheckboxBagChange: PropTypes.func.isRequired
+    };
 
     constructor(props) {
         super(props);

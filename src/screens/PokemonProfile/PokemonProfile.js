@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import GeoMap from '../../components/GeoMap';
+import PropTypes from 'prop-types';
 import ProfileLayout from './../../layouts/ProfileLayout';
 import localStorageCacheDecorator from "../../services/decorators/localStorageCacheDecorator";
 import ApiRequest from "../../services/api/ApiRequest";
@@ -14,6 +14,14 @@ const StyledPokemonProfile = styled.section`
 `;
 
 export default class PokemonProfile extends PureComponent {
+    static propTypes = {
+        match: PropTypes.shape({
+            params: PropTypes.shape({
+                pokemonId: PropTypes.string
+            })
+        }).isRequired
+    };
+
     constructor(props) {
         super(props);
 

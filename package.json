@@ -5,7 +5,7 @@
   "scripts": {
     "start": "webpack-dev-server --config webpack.config --env.env=dev --open",
     "build": "webpack --config webpack.config --env.env=prod",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --config ./jest.config.json"
   },
   "repository": {
     "type": "git",
@@ -23,8 +23,13 @@
     "babel-plugin-styled-components": "^1.10.6",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.2.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
     "html-webpack-plugin": "^3.2.0",
+    "jest": "^24.9.0",
+    "jest-localstorage-mock": "^2.4.0",
     "react-hot-loader": "^4.12.12",
+    "react-test-renderer": "^16.9.0",
     "style-loader": "^1.0.0",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.8",
