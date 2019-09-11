@@ -13,13 +13,13 @@ const routes = [
             {
                 title: 'All',
                 path: "/pokemons",
-                exact: true,
+
                 component: PokemonsList
             },
             {
                 title: 'Bag',
                 path: "/bag",
-                exact: true,
+
                 component: PokemonsBag
             }
         ]
@@ -29,13 +29,28 @@ const routes = [
 export function RouteWithSubRoutes(route) {
     return (
         <Route
-            path={route.path}
-            exact={route.exact}
+            path='/'
             render={props => (
-                <route.component {...props} routes={route.routes} />
+                <div style={{display: props.location.pathname === route.path || route.path === '/'
+                        ? "block"
+                        : "none"
+                }}>
+                    <route.component {...props} routes={route.routes} />
+                </div>
+
             )}
         />
     );
 }
 
 export default routes;
+
+
+<Route exact path="/dc/:id" children={({ match, ...rest }) => (
+    <div style={{display: match && match.params.id === id.toString()
+            ? "block"
+            : "none"
+    }}>
+        <Component {...rest} match={match} />
+    </div>
+)} />

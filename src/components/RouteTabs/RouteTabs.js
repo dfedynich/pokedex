@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {NavLink, Switch, Redirect} from "react-router-dom";
@@ -77,13 +77,13 @@ export default class RouteTabs extends PureComponent {
 
         const defaultActiveRoutePath = this.props.defaultActiveRoutePath || this.props.routes[0].path;
         return (
-            <Switch>
+            <Fragment>
                 {this.props.routes.map((route, i) => (
                     <RouteWithSubRoutes key={i} {...route} />
                 ))}
 
                 <Redirect from="/" to={defaultActiveRoutePath} exact/>
-            </Switch>
+            </Fragment>
         )
     }
 

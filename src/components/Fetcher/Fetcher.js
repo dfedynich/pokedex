@@ -14,6 +14,7 @@ export default class Fetcher extends PureComponent {
             isLoading: false,
             error: null,
         };
+        this._isMounted = false;
 
         this.handleChange = this.handleChange.bind(this);
     }
@@ -25,21 +26,31 @@ export default class Fetcher extends PureComponent {
     }
 
     async componentDidMount() {
+        this._isMounted = true;
         this.setState({ isLoading: true }, this.handleChange);
 
         try {
             const result = await this.props.request();
-            this.setState({
-                data: result,
-                isLoading: false
-            }, this.handleChange);
+            if (this._isMounted) {
+                this.setState({
+                    data: result,
+                    isLoading: false
+                }, this.handleChange);
+            }
+
         } catch (error) {
             console.error(error);
-            this.setState({
-                error,
-                isLoading: false
-            }, this.handleChange);
+            if (this._isMounted) {
+                this.setState({
+                    error,
+                    isLoading: false
+                }, this.handleChange);
+            }
         }
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     render() {

@@ -104,7 +104,7 @@ export default class PokemonsList extends PureComponent {
                                             const pokemonId = this.getPokemonId(pokemon.url);
                                             return (
                                                 <PokemonListItem
-                                                    key={index}
+                                                    key={pokemonId}
                                                     name={pokemon.name}
                                                     id={pokemonId}
                                                     url={pokemon.url}
