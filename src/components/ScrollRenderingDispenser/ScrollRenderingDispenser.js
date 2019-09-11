@@ -18,8 +18,7 @@ export default class ScrollRenderingDispenser extends Component {
         super(props);
 
         this.state = {
-            pageNumber: 1,
-            renderingItems: props.items.slice(0, props.pageSize)
+            pageNumber: 1
         };
 
         this.handleScroll = this.handleScroll.bind(this);
@@ -31,32 +30,30 @@ export default class ScrollRenderingDispenser extends Component {
     }
 
     componentWillUnmount() {
-        window.removeEventListener('scroll', this.handleScrollThrottled, false);
+        if (this.handleScrollThrottled) {
+            window.removeEventListener('scroll', this.handleScrollThrottled, false);
+        }
     }
 
     handleScroll() {
         if (this.checkIfNeedsMoreContent()) {
-            const lastRenderingItemIndex = this.state.pageNumber * this.props.pageSize;
-
-            this.setState((prevState, props) => ({
-                pageNumber: prevState.pageNumber + 1,
-                renderingItems: [
-                    ...prevState.renderingItems,
-                    ...props.items.slice(lastRenderingItemIndex, lastRenderingItemIndex + props.pageSize)
-                ]
+            this.setState((prevState) => ({
+                pageNumber: prevState.pageNumber + 1
             }));
         }
     }
 
     checkIfNeedsMoreContent() {
-        if (this.state.renderingItems.length === this.props.items.length) {
+        if (this.state.pageNumber * this.props.pageSize >= this.props.items.length) {
             return false;
         }
         const pixelsFromWindowBottomToBottom = document.body.offsetHeight - window.scrollY - window.innerHeight;
         return pixelsFromWindowBottomToBottom < 500;
     }
 
+
     render() {
-        return this.props.children({items: this.state.renderingItems});
+        const renderingItems = this.props.items.slice(0, this.state.pageNumber * this.props.pageSize);
+        return this.props.children({items: renderingItems});
     }
 }
