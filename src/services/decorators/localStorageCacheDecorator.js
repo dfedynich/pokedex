@@ -1,14 +1,29 @@
-export default function localStorageCacheDecorator(key, func) {
+export default function localStorageCacheDecorator({key, id, func}) {
     return async function() {
         const cacheValue = localStorage.getItem(key);
+        let parsedValue = {};
+
         if (cacheValue) {
-            const parsedValue = JSON.parse(cacheValue);
-            return parsedValue;
+            parsedValue = JSON.parse(cacheValue);
+
+            if (id) {
+                if (parsedValue[id] !== undefined) {
+                    return parsedValue[id];
+                }
+            } else {
+                return parsedValue;
+            }
         }
 
         const result = await func.apply(this, arguments);
 
-        const newCacheValue = JSON.stringify(result);
+        if (id) {
+            parsedValue[id] = result;
+        } else {
+            parsedValue = result;
+        }
+
+        const newCacheValue = JSON.stringify(parsedValue);
         localStorage.setItem(key, newCacheValue);
 
         return result;

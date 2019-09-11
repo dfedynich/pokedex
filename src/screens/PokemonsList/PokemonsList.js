@@ -16,7 +16,10 @@ export default class PokemonsList extends PureComponent {
 
     render() {
         const apiRequest = ApiRequest.createPokemonApiRequest();
-        const getAllRequest = localStorageCacheDecorator('pokemons', apiRequest.endpoints.pokemons.getAll);
+        const getAllRequest = localStorageCacheDecorator({
+            key:'pokemons',
+            func: apiRequest.endpoints.pokemons.getAll
+        });
 
         return (
             <Fetcher request={() => getAllRequest({params: {limit: 151}})}>
@@ -39,14 +42,13 @@ export default class PokemonsList extends PureComponent {
                                 return (
                                     <GalleryLayout>
                                         {items.map((pokemon, index) => {
-                                                console.log(pokemon);
                                                 const pokemonId = this.getPokemonId(pokemon.url);
                                                 return (
                                                     <PokemonListItem
                                                         key={index}
                                                         name={pokemon.name}
-                                                        pokemonId={pokemonId}
-                                                        imageURL="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png"
+                                                        id={pokemonId}
+                                                        url={pokemon.url}
                                                     />
                                                 )
                                             }

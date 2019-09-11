@@ -26,6 +26,7 @@ export default class Fetcher extends PureComponent {
                 isLoading: false
             });
         } catch (error) {
+            console.error(error);
             this.setState({
                 error,
                 isLoading: false

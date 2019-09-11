@@ -2,7 +2,7 @@ import {API_POKEMON_HOST_URL, API_POKEMON_ENDPOINTS_MAP, API_LOCATION_HOST_URL, 
 
 export default class ApiRequest {
     constructor({ hostUrl }){
-        this.hostUrl = hostUrl
+        this.hostUrl = hostUrl;
         this.endpoints = {}
     }
 
@@ -40,8 +40,6 @@ export default class ApiRequest {
             return json;
         };
 
-        endpoints.getOne = ({ id }, config={}) =>  axios.get(`${resourceURL}/${id}`, config)
-
         return endpoints;
 
     }
@@ -54,5 +52,21 @@ export default class ApiRequest {
         });
 
         return apiRequest;
+    }
+
+    static createGetApiRequest({ url, params={}, options={} }) {
+        return async () => {
+            const fetchUrl = new URL(url);
+
+            Object.entries(params).forEach(param => {
+                fetchUrl.searchParams.set(param[0], param[1]);
+            });
+
+
+            const response = await fetch(fetchUrl.toString(), options);
+            const json = await response.json();
+
+            return json;
+        };
     }
 }
